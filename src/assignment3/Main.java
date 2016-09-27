@@ -66,7 +66,7 @@ public class Main {
 		// Return empty list if no ladder.
 		// TODO some code
 		String node = start;
-		ArrayList<String> Neighbors = findneighbors(node);
+		ArrayList<String> Neighbors = findNeighbors(node);
 
 
 		
@@ -103,8 +103,15 @@ public class Main {
 	}
 	// TODO
 	// Other private static methods here
-	private static ArrayList<String> findneighbors(String node){
-
+	private static ArrayList<String> findNeighbors(String node){
+		ArrayList<String> neighbor = new ArrayList<String>();
+		String[] dict = dictionary.toArray(new String[dictionary.size()]);
+		for(int i = 0; i < dictionary.size(); i ++){
+			if(almostEquals(node, dict[i])){
+				neighbor.add(dict[i]);
+			}
+		}
+		return neighbor;
 	}
 
 	private static boolean almostEquals(String node, String next) {
