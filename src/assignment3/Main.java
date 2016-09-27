@@ -46,7 +46,7 @@ public class Main {
 		// We will call this method before running our JUNIT tests.  So call it 
 		// only once at the start of main.
 		dictionary = makeDictionary();
-		wordLetter.clear();
+		wordLadder.clear();
 		Explored.clear();
 	}
 	
