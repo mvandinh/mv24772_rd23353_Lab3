@@ -18,7 +18,9 @@ import java.io.*;
 
 public class Main {
 	
-	// static variables and constants only here.
+	public static ArrayList<String> wordLadder = new ArrayList<String>();
+	public static String start;
+	public static String end;
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -34,14 +36,15 @@ public class Main {
 			ps = System.out;			// default to Stdout
 		}
 		initialize();
-		
+		while (wordLadder.isEmpty() != true) {
+			
+		}
 		// TODO methods to read in words, output ladder
 	}
 	
 	public static void initialize() {
-		// initialize your static variables or constants here.
-		// We will call this method before running our JUNIT tests.  So call it 
-		// only once at the start of main.
+		Set<String> dictionary = makeDictionary();
+		
 	}
 	
 	/**
@@ -50,28 +53,27 @@ public class Main {
 	 * If command is /quit, return empty ArrayList. 
 	 */
 	public static ArrayList<String> parse(Scanner keyboard) {
-		// TO DO
-		return null;
+		System.out.print("Please enter two 5-letter words separated by a space for the word ladder: ");
+		String input = keyboard.nextLine();
+		System.out.println();
+		if (input.equals("/quit")) {
+			wordLadder.clear();
+			return wordLadder;
+		}
+		else {
+			wordLadder.clear();
+			wordLadder.add(input.substring(0,  5));
+			wordLadder.add(input.substring(input.length() - 5));
+			return wordLadder;
+		}
 	}
 	
 	public static ArrayList<String> getWordLadderDFS(String start, String end) {
 		
-		// Returned list should be ordered start to end.  Include start and end.
-		// Return empty list if no ladder.
-		// TODO some code
-		Set<String> dict = makeDictionary();
-		// TODO more code
-		
-		return null; // replace this line later with real return
 	}
 	
     public static ArrayList<String> getWordLadderBFS(String start, String end) {
-		
-		// TODO some code
-		Set<String> dict = makeDictionary();
-		// TODO more code
-		
-		return null; // replace this line later with real return
+	
 	}
     
 	public static Set<String>  makeDictionary () {
