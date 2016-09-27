@@ -22,6 +22,10 @@ public class Main {
 	public static String start;
 	public static String end;
 	// static variables and constants only here.
+<<<<<<< HEAD
+=======
+	private static ArrayList<String> wordLadder = new ArrayList<String>();
+>>>>>>> 25b3113076e3ca3723f8fb58f7c8f7450dabef8d
 	private static ArrayList<String> Explored = new ArrayList<String>();
 	private static Set<String> dictionary;
 	
