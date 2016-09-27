@@ -21,6 +21,9 @@ public class Main {
 	public static ArrayList<String> wordLadder = new ArrayList<String>();
 	public static String start;
 	public static String end;
+	// static variables and constants only here.
+	private static ArrayList<String> Explored = new ArrayList<String>();
+	private static Set<String> dictionary;
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -46,7 +49,12 @@ public class Main {
 	}
 	
 	public static void initialize() {
-		Set<String> dictionary = makeDictionary();
+		// initialize your static variables or constants here.
+		// We will call this method before running our JUNIT tests.  So call it 
+		// only once at the start of main.
+		dictionary = makeDictionary();
+		wordLadder.clear();
+		Explored.clear();
 	}
 	
 	/**
@@ -71,11 +79,16 @@ public class Main {
 	}
 	
 	public static ArrayList<String> getWordLadderDFS(String start, String end) {
-		
+		String node = start;
+		ArrayList<String> Neighbors = findNeighbors(node);
 	}
 	
-    public static ArrayList<String> getWordLadderBFS(String start, String end) {
 	
+    public static ArrayList<String> getWordLadderBFS(String start, String end) {
+		
+		// TODO some code
+		
+		return null; // replace this line later with real return
 	}
     
 	public static Set<String>  makeDictionary () {
@@ -99,4 +112,29 @@ public class Main {
 			System.out.println(ladder.get(i));
 		}
 	}
+	
+	// TODO
+	// Other private static methods here
+	private static ArrayList<String> findNeighbors(String node){
+		ArrayList<String> neighbor = new ArrayList<String>();
+		String[] dict = dictionary.toArray(new String[dictionary.size()]);
+		for(int i = 0; i < dictionary.size(); i ++){
+			if(almostEquals(node, dict[i])){
+				neighbor.add(dict[i]);
+			}
+		}
+		return neighbor;
+	}
+
+	private static boolean almostEquals(String node, String next) {
+		if (node.length() != next.length())
+			return false;
+		int same = 0;
+		for (int i = 0; i < node.length(); ++i) {
+			if (node.charAt(i) == node.charAt(i))
+				same++;
+		}
+		return same == (node.length() - 1);
+	}
+
 }
