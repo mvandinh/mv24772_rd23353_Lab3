@@ -36,10 +36,12 @@ public class Main {
 			ps = System.out;			// default to Stdout
 		}
 		initialize();
-		while (wordLadder.isEmpty() != true) {
-			
-		}
-		// TODO methods to read in words, output ladder
+		do {
+			parse(kb);
+			if (wordLadder.isEmpty() != true) {
+				printLadder(wordLadder);
+			}
+		} while (wordLadder.isEmpty() != true);
 	}
 	
 	public static void initialize() {
@@ -62,7 +64,7 @@ public class Main {
 		}
 		else {
 			wordLadder.clear();
-			wordLadder.add(input.substring(0,  5));
+			wordLadder.add(input.substring(0, 5));
 			wordLadder.add(input.substring(input.length() - 5));
 			return wordLadder;
 		}
@@ -93,8 +95,8 @@ public class Main {
 	}
 	
 	public static void printLadder(ArrayList<String> ladder) {
-		
+		for (int i = 0; i < ladder.size(); i++) {
+			System.out.println(ladder.get(i));
+		}
 	}
-	// TODO
-	// Other private static methods here
 }
