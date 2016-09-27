@@ -39,6 +39,7 @@ public class Main {
 		do {
 			parse(kb);
 			if (wordLadder.isEmpty() != true) {
+				
 				printLadder(wordLadder);
 			}
 		} while (wordLadder.isEmpty() != true);
@@ -46,7 +47,6 @@ public class Main {
 	
 	public static void initialize() {
 		Set<String> dictionary = makeDictionary();
-		
 	}
 	
 	/**
