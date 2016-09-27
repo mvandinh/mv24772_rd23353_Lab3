@@ -5,9 +5,9 @@
  * 16475
  * Raphael De Los Santos
  * rd23353
- * <Student2 5-digit Unique No.>
+ * 16480
  * Slip days used: <0>
- * Git URL: 
+ * Git URL: https://github.com/mvandinh/mv24772_rd23353_Lab3
  * Fall 2016
  */
 
