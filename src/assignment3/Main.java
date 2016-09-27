@@ -19,7 +19,7 @@ import java.io.*;
 public class Main {
 	
 	// static variables and constants only here.
-	private static ArrayList<String> wordLetter = new ArrayList<String>();
+	private static ArrayList<String> wordLadder = new ArrayList<String>();
 	private static ArrayList<String> Explored = new ArrayList<String>();
 	private static Set<String> dictionary;
 	
