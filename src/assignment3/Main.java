@@ -41,7 +41,7 @@ public class Main {
 		do {
 			parse(kb);
 			if (wordLadder.isEmpty() != true) {
-				
+				getWordLadderDFS(wordLadder.get(0), wordLadder.get(1));
 				printLadder(wordLadder);
 			}
 		} while (wordLadder.isEmpty() != true);
@@ -79,12 +79,7 @@ public class Main {
 	
 	public static ArrayList<String> getWordLadderDFS(String start, String end) {
 		ArrayList<String> neighbors = findNeighbors(start);
-		boolean found = FindDFS(start, end, neighbors);
-		if(!found){
-			System.out.println("no word ladder can be found between " + start + " and " + end + ".");
-			wordLadder.clear();
-			return wordLadder;
-		}
+		FindDFS(start, end, neighbors);
 		wordLadder = reverse(wordLadder);
 		wordLadder.add(0, start);
 		return wordLadder;
@@ -92,19 +87,42 @@ public class Main {
 	
 	
     public static ArrayList<String> getWordLadderBFS(String start, String end) {
-		ArrayList<Node> queue = new ArrayList<Node>();
-		Node head = new Node();
-		head.word = start;
-		head.parent = null;
+		ArrayList<String> queue = new ArrayList<String>();
+		ArrayList<String> neighbors = new ArrayList<String>();
+		String head = start;
 		queue.add(head);
-		boolean found = FindBFS(head, queue, end);
+		while (queue.isEmpty() != true) {
+			head = queue.remove(0);
+			if (head.equals(end)) {
+				return wordLadder;
+			}
+			else if (explored.contains(head)) ;
+			else {
+				explored.add(head);
+				neighbors = findNeighbors(head);
+				for (int i = 0; i < neighbors.size(); i++) {
+					if (explored.contains(neighbors.get(i)) != true) {
+						if (almostEquals(head, neighbors.get(i))) {
+							explored.add(neighbors.get(i));
+							wordLadder.add(neighbors.get(i));
+							queue.add(neighbors.get(i));
+							break;
+						}
+						else {
+							explored.add(neighbors.get(i));
+						}
+					}
+				}
+			}
+		}
+		return wordLadder;
 	}
     
 	public static Set<String>  makeDictionary () {
 		Set<String> words = new HashSet<String>();
 		Scanner infile = null;
 		try {
-			infile = new Scanner (new File("five_letter_words.txt"));
+			infile = new Scanner (new File("short_dict.txt"));
 		} catch (FileNotFoundException e) {
 			System.out.println("Dictionary File not Found!");
 			e.printStackTrace();
@@ -117,10 +135,17 @@ public class Main {
 	}
 	
 	public static void printLadder(ArrayList<String> ladder) {
-		for (int i = 0; i < ladder.size(); i++) {
-			System.out.println(ladder.get(i));
+		if (ladder.size() == 2) {
+			System.out.println("no word ladder can be found between " + ladder.get(0) + " and " + ladder.get(ladder.size() - 1));
+		}
+		else {
+			System.out.println("A " + ladder.size() + "-rung ladder exists between " + ladder.get(0) + " and " + ladder.get(ladder.size() - 1));
+			for (int i = 0; i < ladder.size(); i++) {
+				System.out.println(ladder.get(i));
+			}
 		}
 		explored.clear();
+		
 	}
 	
 	// TODO
@@ -165,29 +190,6 @@ public class Main {
 			}
 		}
 		return false;
-
-	}
-
-	private static boolean FindBFS(Node head, ArrayList<Node> queue, String value){
-		ArrayList<String> neighbors = findNeighbors(head.word);
-		while (queue.isEmpty() != true) {
-			head = queue.remove(0);
-			if (head.word.equals(value)) {
-				return true;
-			}
-			else if (explored.contains(head.word)) ;
-			else {
-				explored.add(head.word)));
-				for (int i = 0; i < neighbors.size(); i++) {
-					if (explored.contains(neighbors.get(i)) != true) {
-						head = ;
-						queue.add(neighbors.get(i));
-					}
-				}
-
-			}
-		}
-		return wordLadder;	// not found
 
 	}
 

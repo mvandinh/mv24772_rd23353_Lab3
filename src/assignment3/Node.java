@@ -6,5 +6,4 @@ package assignment3;
 public class Node {
     public String parent;
     public String word;
-
 }
