@@ -18,6 +18,7 @@ import java.io.*;
 
 public class Main {
 	
+	// static variables and constants only here.
 	public static ArrayList<String> wordLadder = new ArrayList<String>();
 	private static ArrayList<String> Explored = new ArrayList<String>();
 	private static Set<String> dictionary;
@@ -83,6 +84,7 @@ public class Main {
 			wordLadder.clear();
 			return wordLadder;
 		}
+		wordLadder = reverse(wordLadder);
 		wordLadder.add(0, start);
 		wordLadder.add(wordLadder.size(), end);
 		return wordLadder;
@@ -161,5 +163,12 @@ public class Main {
 		}
 		return false;
 
+	}
+
+	private static ArrayList<String> reverse(ArrayList<String> correct) {
+		for(int i = 0, j = correct.size() - 1; i < j; i++) {
+			correct.add(i, correct.remove(j));
+		}
+		return correct;
 	}
 }
