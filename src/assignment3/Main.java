@@ -19,13 +19,6 @@ import java.io.*;
 public class Main {
 	
 	public static ArrayList<String> wordLadder = new ArrayList<String>();
-	public static String start;
-	public static String end;
-	// static variables and constants only here.
-<<<<<<< HEAD
-=======
-	private static ArrayList<String> wordLadder = new ArrayList<String>();
->>>>>>> 25b3113076e3ca3723f8fb58f7c8f7450dabef8d
 	private static ArrayList<String> Explored = new ArrayList<String>();
 	private static Set<String> dictionary;
 	
@@ -83,8 +76,16 @@ public class Main {
 	}
 	
 	public static ArrayList<String> getWordLadderDFS(String start, String end) {
-		String node = start;
-		ArrayList<String> Neighbors = findNeighbors(node);
+		ArrayList<String> Neighbors = findNeighbors(start);
+		boolean found = Find(start, end, Neighbors);
+		if(!found){
+			System.out.println("no word ladder can be found between " + start + " and " + end + ".");
+			wordLadder.clear();
+			return wordLadder;
+		}
+		wordLadder.add(0, start);
+		wordLadder.add(wordLadder.size(), end);
+		return wordLadder;
 	}
 	
 	
@@ -141,4 +142,24 @@ public class Main {
 		return same == (node.length() - 1);
 	}
 
+	private static boolean Find(String node, String toFind, ArrayList<String> Neighbors){
+		if(node.equals(null))
+			return false;
+		Explored.add(node);
+
+		if(node.equals(toFind))
+			return true;
+
+		else{
+			for(String k: Neighbors){
+				boolean found = Find(k, toFind, findNeighbors(k));
+				if (found) {
+					wordLadder.add(k);
+					return true;
+				}
+			}
+		}
+		return false;
+
+	}
 }
