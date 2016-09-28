@@ -79,7 +79,7 @@ public class Main {
 	
 	public static ArrayList<String> getWordLadderDFS(String start, String end) {
 		ArrayList<String> neighbors = findNeighbors(start);
-		boolean found = Find(start, end, neighbors);
+		boolean found = FindDFS(start, end, neighbors);
 		if(!found){
 			System.out.println("no word ladder can be found between " + start + " and " + end + ".");
 			wordLadder.clear();
@@ -87,36 +87,17 @@ public class Main {
 		}
 		wordLadder = reverse(wordLadder);
 		wordLadder.add(0, start);
-		wordLadder.add(wordLadder.size(), end);
 		return wordLadder;
 	}
 	
 	
     public static ArrayList<String> getWordLadderBFS(String start, String end) {
-		ArrayList<String> neighbors = findNeighbors(start);
-		ArrayList<String> queue = new ArrayList<String>();
-		queue.add(start);
-		String head = queue.get(0);
-		while (queue.isEmpty() != true) {
-			queue.remove(0);
-			if (head.equals(end)) {
-				return wordLadder;
-			}
-			else if (explored.contains(head)) {
-				queue.remove(0);
-			}
-			else {
-				explored.add(queue.get(0));
-				for (int i = 0; i < neighbors.size(); i++) {
-					if (explored.contains(neighbors.get(i)) != true) {
-						head = ;
-						queue.add(neighbors.get(i));
-					}
-				}
-				
-			}
-		}
-		return wordLadder;	// not found
+		ArrayList<Node> queue = new ArrayList<Node>();
+		Node head = new Node();
+		head.word = start;
+		head.parent = null;
+		queue.add(head);
+		boolean found = FindBFS(head, queue, end);
 	}
     
 	public static Set<String>  makeDictionary () {
@@ -139,6 +120,7 @@ public class Main {
 		for (int i = 0; i < ladder.size(); i++) {
 			System.out.println(ladder.get(i));
 		}
+		explored.clear();
 	}
 	
 	// TODO
@@ -165,7 +147,7 @@ public class Main {
 		return same == (node.length() - 1);
 	}
 
-	private static boolean Find(String node, String toFind, ArrayList<String> Neighbors){
+	private static boolean FindDFS(String node, String toFind, ArrayList<String> Neighbors){
 		if(node.equals(null))
 			return false;
 		explored.add(node);
@@ -174,8 +156,8 @@ public class Main {
 			return true;
 
 		else{
-			for(String k: neighbors){
-				boolean found = Find(k, toFind, findNeighbors(k));
+			for(String k: Neighbors){
+				boolean found = FindDFS(k, toFind, findNeighbors(k));
 				if (found) {
 					wordLadder.add(k);
 					return true;
@@ -183,6 +165,29 @@ public class Main {
 			}
 		}
 		return false;
+
+	}
+
+	private static boolean FindBFS(Node head, ArrayList<Node> queue, String value){
+		ArrayList<String> neighbors = findNeighbors(head.word);
+		while (queue.isEmpty() != true) {
+			head = queue.remove(0);
+			if (head.word.equals(value)) {
+				return true;
+			}
+			else if (explored.contains(head.word)) ;
+			else {
+				explored.add(head.word)));
+				for (int i = 0; i < neighbors.size(); i++) {
+					if (explored.contains(neighbors.get(i)) != true) {
+						head = ;
+						queue.add(neighbors.get(i));
+					}
+				}
+
+			}
+		}
+		return wordLadder;	// not found
 
 	}
 
