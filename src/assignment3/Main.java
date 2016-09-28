@@ -20,13 +20,8 @@ public class Main {
 	
 	
 	// static variables and constants only here.
-<<<<<<< HEAD
 	private static ArrayList<String> wordLadder = new ArrayList<String>();
 	private static ArrayList<String> explored = new ArrayList<String>();
-=======
-	public static ArrayList<String> wordLadder = new ArrayList<String>();
-	private static ArrayList<String> Explored = new ArrayList<String>();
->>>>>>> origin/master
 	private static Set<String> dictionary;
 	
 	public static void main(String[] args) throws Exception {
@@ -58,7 +53,7 @@ public class Main {
 		// only once at the start of main.
 		dictionary = makeDictionary();
 		wordLadder.clear();
-		Explored.clear();
+		explored.clear();
 	}
 	
 	/**
@@ -83,8 +78,8 @@ public class Main {
 	}
 	
 	public static ArrayList<String> getWordLadderDFS(String start, String end) {
-		ArrayList<String> Neighbors = findNeighbors(start);
-		boolean found = Find(start, end, Neighbors);
+		ArrayList<String> neighbors = findNeighbors(start);
+		boolean found = Find(start, end, neighbors);
 		if(!found){
 			System.out.println("no word ladder can be found between " + start + " and " + end + ".");
 			wordLadder.clear();
@@ -98,18 +93,27 @@ public class Main {
 	
 	
     public static ArrayList<String> getWordLadderBFS(String start, String end) {
-		String node = start;
-		ArrayList<String> neighbors = findNeighbors(node);
-		int i = 0;
-		while (neighbors.isEmpty() != true) {
-			if (start == neighbors.get(0)) {
+		ArrayList<String> neighbors = findNeighbors(start);
+		ArrayList<String> queue = new ArrayList<String>();
+		queue.add(start);
+		String head = queue.get(0);
+		while (queue.isEmpty() != true) {
+			queue.remove(0);
+			if (head.equals(end)) {
 				return wordLadder;
 			}
-			else if (explored.contains(neighbors.get(0))) {
-				neighbors.remove(0);
+			else if (explored.contains(head)) {
+				queue.remove(0);
 			}
 			else {
-				explored.add()
+				explored.add(queue.get(0));
+				for (int i = 0; i < neighbors.size(); i++) {
+					if (explored.contains(neighbors.get(i)) != true) {
+						head = ;
+						queue.add(neighbors.get(i));
+					}
+				}
+				
 			}
 		}
 		return wordLadder;	// not found
@@ -164,13 +168,13 @@ public class Main {
 	private static boolean Find(String node, String toFind, ArrayList<String> Neighbors){
 		if(node.equals(null))
 			return false;
-		Explored.add(node);
+		explored.add(node);
 
 		if(node.equals(toFind))
 			return true;
 
 		else{
-			for(String k: Neighbors){
+			for(String k: neighbors){
 				boolean found = Find(k, toFind, findNeighbors(k));
 				if (found) {
 					wordLadder.add(k);
