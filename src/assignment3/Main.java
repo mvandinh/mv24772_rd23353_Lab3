@@ -18,11 +18,10 @@ import java.io.*;
 
 public class Main {
 	
+	
 	// static variables and constants only here.
-	public static ArrayList<String> wordLadder = new ArrayList<String>();
-	public static String start;
-	public static String end;
-	private static ArrayList<String> Explored = new ArrayList<String>();
+	private static ArrayList<String> wordLadder = new ArrayList<String>();
+	private static ArrayList<String> explored = new ArrayList<String>();
 	private static Set<String> dictionary;
 	
 	public static void main(String[] args) throws Exception {
@@ -85,10 +84,21 @@ public class Main {
 	
 	
     public static ArrayList<String> getWordLadderBFS(String start, String end) {
-		
-		// TODO some code
-		
-		return null; // replace this line later with real return
+		String node = start;
+		ArrayList<String> neighbors = findNeighbors(node);
+		int i = 0;
+		while (neighbors.isEmpty() != true) {
+			if (start == neighbors.get(0)) {
+				return wordLadder;
+			}
+			else if (explored.contains(neighbors.get(0))) {
+				neighbors.remove(0);
+			}
+			else {
+				explored.add()
+			}
+		}
+		return wordLadder;	// not found
 	}
     
 	public static Set<String>  makeDictionary () {
