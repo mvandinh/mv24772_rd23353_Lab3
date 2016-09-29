@@ -254,6 +254,11 @@ public class Main {
 		return (same == (node.length() - 1));
 	}
 
+	/**
+	 * orders neighbors of last word for DFS optimization
+	 * @param neighbor - words that have 4 letters in common
+	 * @return returns a list of neighbors near last
+	 */
 	private static ArrayList<String> reOrder(ArrayList<String> neighbor){
 		int[] same = new int[last.length() + 1];
 		int equal;
