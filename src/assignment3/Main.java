@@ -74,7 +74,10 @@ public class Main {
 		last = "";
 		System.out.print("Please enter two 5-letter words separated by a space for the word ladder: ");
 		String input = keyboard.nextLine();
-		input = input.replaceAll("\\s+\\n+\\t+\\r","");
+		input = input.replaceAll("\\s+","");
+		input = input.replaceAll("\\t+","");
+		input = input.replaceAll("\\n+","");
+		input = input.replaceAll("\\r+","");
 
 		if (input.equals("/quit")) {
 			wordLadder.clear();
@@ -141,7 +144,7 @@ public class Main {
 		Set<String> words = new HashSet<String>();
 		Scanner infile = null;
 		try {
-			infile = new Scanner (new File("five_letter_words.txt"));
+			infile = new Scanner (new File("short_dict.txt"));
 		} catch (FileNotFoundException e) {
 			System.out.println("Dictionary File not Found!");
 			e.printStackTrace();
@@ -173,9 +176,9 @@ public class Main {
 		ArrayList<String> neighbor = new ArrayList<String>();
 		for(int i = 0; i < dictionary.size(); i ++){
 			if(almostEquals(node, dict[i])){
-				if (!explored.contains(dict[i])) {
+				//if (!explored.contains(dict[i])) {
 					neighbor.add(dict[i]);
-				}	
+				//}
 			}
 		}
 		return neighbor;
