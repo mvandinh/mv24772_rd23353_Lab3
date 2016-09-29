@@ -46,7 +46,7 @@ public class Main {
 		initialize();
 		parse(kb);
 		if (wordLadder.isEmpty() != true) {
-			getWordLadderBFS(first, last);
+			getWordLadderDFS(first, last);
 			printLadder(wordLadder);
 		}
 	}
