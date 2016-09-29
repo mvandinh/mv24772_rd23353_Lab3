@@ -24,6 +24,8 @@ public class Main {
 	private static ArrayList<String> explored = new ArrayList<String>();
 	private static Set<String> dictionary;
 	private static String[] dict;
+	private static String first;
+	private static String last;
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -42,7 +44,7 @@ public class Main {
 		do {
 			parse(kb);
 			if (wordLadder.isEmpty() != true) {
-				getWordLadderDFS(wordLadder.get(0), wordLadder.get(1));
+				getWordLadderDFS(first, last);
 				printLadder(wordLadder);
 			}
 		} while (wordLadder.isEmpty() != true);
@@ -67,22 +69,37 @@ public class Main {
 	 * If command is /quit, return empty ArrayList. 
 	 */
 	public static ArrayList<String> parse(Scanner keyboard) {
+		boolean flag = false;
+		first = "";
+		last = "";
 		System.out.print("Please enter two 5-letter words separated by a space for the word ladder: ");
 		String input = keyboard.nextLine();
-		System.out.println();
+		input = input.replaceAll("\\s+","");
+
 		if (input.equals("/quit")) {
 			wordLadder.clear();
 			return wordLadder;
 		}
-		else {
-			wordLadder.clear();
-			wordLadder.add(input.substring(0, 5));
-			wordLadder.add(input.substring(input.length() - 5));
-			return wordLadder;
+
+		String[] input_string = input.split("");
+		for(int indx = 0; indx < input_string.length; indx ++){
+			if(!flag){
+				first = first + input_string[indx];
+				if(dictionary.contains(first)){
+					flag = true;
+				}
+			} else{
+				last = last + input_string[indx];
+			}
 		}
+		wordLadder.clear();
+		wordLadder.add(input.substring(0, 5));
+		wordLadder.add(input.substring(input.length() - 5));
+		return wordLadder;
 	}
 	
 	public static ArrayList<String> getWordLadderDFS(String start, String end) {
+		wordLadder.clear();
 		ArrayList<String> neighbors = findNeighbors(start);
 		boolean found = FindDFS(start, end, neighbors);
 		if(!found){
@@ -90,7 +107,6 @@ public class Main {
 			return wordLadder;
 		}
 		wordLadder = reverse(wordLadder);
-		wordLadder.add(0, start);
 		return wordLadder;
 	}
 	
@@ -125,7 +141,7 @@ public class Main {
 		Set<String> words = new HashSet<String>();
 		Scanner infile = null;
 		try {
-			infile = new Scanner (new File("short_dict.txt"));
+			infile = new Scanner (new File("five_letter_word.txt"));
 		} catch (FileNotFoundException e) {
 			System.out.println("Dictionary File not Found!");
 			e.printStackTrace();
@@ -139,7 +155,7 @@ public class Main {
 	
 	public static void printLadder(ArrayList<String> ladder) {
 		if (ladder.isEmpty()) {
-			System.out.println("no word ladder can be found between " + ladder.get(0) + " and " + ladder.get(ladder.size() - 1));
+			System.out.println("no word ladder can be found between " + first + " and " + last);
 		}
 		else {
 			System.out.println("A " + ladder.size() + "-rung ladder exists between " + ladder.get(0) + " and " + ladder.get(ladder.size() - 1));
@@ -201,8 +217,6 @@ public class Main {
 	}
 
 	private static ArrayList<String> reverse(ArrayList<String> correct) {
-		correct.remove(0);		// remove start for reverse will be readded later
-		correct.remove(0);		// remove end for reverse
 		for(int i = 0, j = correct.size() - 1; i < j; i++) {
 			correct.add(i, correct.remove(j));
 		}
