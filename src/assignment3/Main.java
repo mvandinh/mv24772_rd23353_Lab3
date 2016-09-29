@@ -43,19 +43,10 @@ public class Main {
 			ps = System.out;			// default to Stdout
 		}
 		initialize();
-<<<<<<< HEAD
 		parse(kb);
 		if (wordLadder.isEmpty() != true) {
 			getWordLadderDFS(first, last);
 			printLadder(wordLadder);
-=======
-		while(true) {
-			parse(kb);
-			if (wordLadder.isEmpty() != true) {
-				getWordLadderDFS(first, last);
-				printLadder(wordLadder);
-			}
->>>>>>> 49d34b8056e0b6a3813d1ebcfd026a64025112de
 		}
 	}
 	/**
@@ -262,6 +253,11 @@ public class Main {
 		return (same == (node.length() - 1));
 	}
 
+	/**
+	 * orders neighbors of last word for DFS optimization
+	 * @param neighbor - words that have 4 letters in common
+	 * @return returns a list of neighbors near last
+	 */
 	private static ArrayList<String> reOrder(ArrayList<String> neighbor){
 		int[] same = new int[last.length() + 1];
 		int equal;
