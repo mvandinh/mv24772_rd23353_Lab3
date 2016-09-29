@@ -43,10 +43,12 @@ public class Main {
 			ps = System.out;			// default to Stdout
 		}
 		initialize();
-		parse(kb);
-		if (wordLadder.isEmpty() != true) {
-			getWordLadderBFS(first, last);
-			printLadder(wordLadder);
+		while(true) {
+			parse(kb);
+			if (wordLadder.isEmpty() != true) {
+				getWordLadderDFS(first, last);
+				printLadder(wordLadder);
+			}
 		}
 	}
 	/**
@@ -232,6 +234,7 @@ public class Main {
 				}
 			}
 		}
+		neighbor = reOrder(neighbor);
 		return neighbor;
 	}
 
@@ -250,6 +253,41 @@ public class Main {
 				same++;
 		}
 		return (same == (node.length() - 1));
+	}
+
+	private static ArrayList<String> reOrder(ArrayList<String> neighbor){
+		int[] same = new int[last.length() + 1];
+		int equal;
+		for(int i = 0; i < neighbor.size(); i++){
+			equal = 0;
+			for(int j = 0; j < last.length(); j++) {
+				if (neighbor.get(i).charAt(j) == last.charAt(j)){
+					equal++;
+				}
+			}
+			same[equal] = same[equal]+ 1;
+			if(equal == last.length()){
+				neighbor.add(0, neighbor.get(i));
+				neighbor.remove(i + 1);
+			}
+			else if(equal == last.length() - 1 && last.length() - 1 != 0){
+				neighbor.add(same[last.length()], neighbor.get(i));
+				neighbor.remove(i + 1);
+			}
+			else if(equal == last.length() - 2 && last.length() - 2 != 0){
+				neighbor.add(same[last.length()] + same[last.length() - 1], neighbor.get(i));
+				neighbor.remove(i + 1);
+			}
+			else if(equal == last.length() - 3 && last.length() - 3 != 0){
+				neighbor.add(same[last.length()] + same[last.length() - 1] + same[last.length() - 2], neighbor.get(i));
+				neighbor.remove(i + 1);
+			}
+			else if(equal == last.length() -4 && last.length() -4 != 0){
+				neighbor.add(same[last.length()] + same[last.length() - 1] + same[last.length() - 2] + same[last.length() - 3], neighbor.get(i));
+				neighbor.remove(i + 1);
+			}
+		}
+		return neighbor;
 	}
 
 	/**
