@@ -43,19 +43,11 @@ public class Main {
 			ps = System.out;			// default to Stdout
 		}
 		initialize();
-<<<<<<< HEAD
+
 		parse(kb);
 		if (wordLadder.isEmpty() != true) {
 			getWordLadderDFS(first, last);
 			printLadder(wordLadder);
-=======
-		while(true) {
-			parse(kb);
-			if (wordLadder.isEmpty() != true) {
-				getWordLadderDFS(first, last);
-				printLadder(wordLadder);
-			}
->>>>>>> 49d34b8056e0b6a3813d1ebcfd026a64025112de
 		}
 	}
 	/**
