@@ -23,6 +23,7 @@ public class Main {
 	private static ArrayList<String> wordLadder = new ArrayList<String>();
 	private static ArrayList<String> explored = new ArrayList<String>();
 	private static Set<String> dictionary;
+	private static String[] dict;
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -52,6 +53,10 @@ public class Main {
 		// We will call this method before running our JUNIT tests.  So call it 
 		// only once at the start of main.
 		dictionary = makeDictionary();
+		dict = dictionary.toArray(new String[dictionary.size()]);
+		for (int i = 0; i < dictionary.size(); i++) {
+			dict[i] = dict[i].toLowerCase();
+		}
 		wordLadder.clear();
 		explored.clear();
 	}
@@ -88,7 +93,8 @@ public class Main {
 	
     public static ArrayList<String> getWordLadderBFS(String start, String end) {
 		ArrayList<String> queue = new ArrayList<String>();
-		ArrayList<String> neighbors = new ArrayList<String>();
+		ArrayList<String> neighbors;
+		explored.add(start);
 		String head = start;
 		queue.add(head);
 		while (queue.isEmpty() != true) {
@@ -102,15 +108,8 @@ public class Main {
 				neighbors = findNeighbors(head);
 				for (int i = 0; i < neighbors.size(); i++) {
 					if (explored.contains(neighbors.get(i)) != true) {
-						if (almostEquals(head, neighbors.get(i))) {
-							explored.add(neighbors.get(i));
-							wordLadder.add(neighbors.get(i));
-							queue.add(neighbors.get(i));
-							break;
-						}
-						else {
-							explored.add(neighbors.get(i));
-						}
+						explored.add(neighbors.get(i));
+						queue.add(neighbors.get(i));
 					}
 				}
 			}
@@ -152,10 +151,11 @@ public class Main {
 	// Other private static methods here
 	private static ArrayList<String> findNeighbors(String node){
 		ArrayList<String> neighbor = new ArrayList<String>();
-		String[] dict = dictionary.toArray(new String[dictionary.size()]);
 		for(int i = 0; i < dictionary.size(); i ++){
 			if(almostEquals(node, dict[i])){
-				neighbor.add(dict[i]);
+				if (!explored.contains(dict[i])) {
+					neighbor.add(dict[i]);
+				}	
 			}
 		}
 		return neighbor;
@@ -165,23 +165,26 @@ public class Main {
 		if (node.length() != next.length())
 			return false;
 		int same = 0;
-		for (int i = 0; i < node.length(); ++i) {
-			if (node.charAt(i) == node.charAt(i))
+		for (int i = 0; i < node.length(); i++) {
+			if (node.charAt(i) == next.charAt(i))
 				same++;
 		}
 		return same == (node.length() - 1);
 	}
 
-	private static boolean FindDFS(String node, String toFind, ArrayList<String> Neighbors){
-		if(node.equals(null))
+	private static boolean FindDFS(String node, String toFind, ArrayList<String> neighbors){
+		if(node.equals(null)) {
 			return false;
+		}
 		explored.add(node);
-
-		if(node.equals(toFind))
+		if (node.equals(toFind)) {
 			return true;
-
+		}
 		else{
-			for(String k: Neighbors){
+			for(String k : neighbors){
+				if (explored.contains(k)) {
+					return false;
+				}
 				boolean found = FindDFS(k, toFind, findNeighbors(k));
 				if (found) {
 					wordLadder.add(k);
@@ -194,6 +197,8 @@ public class Main {
 	}
 
 	private static ArrayList<String> reverse(ArrayList<String> correct) {
+		correct.remove(0);		// remove start for reverse will be readded later
+		correct.remove(0);		// remove end for reverse
 		for(int i = 0, j = correct.size() - 1; i < j; i++) {
 			correct.add(i, correct.remove(j));
 		}
