@@ -110,6 +110,7 @@ public class Main {
 			return wordLadder;
 		}
 		wordLadder = reverse(wordLadder);
+		wordLadder.add(0, first);
 		return wordLadder;
 	}
 	
@@ -144,7 +145,7 @@ public class Main {
 		Set<String> words = new HashSet<String>();
 		Scanner infile = null;
 		try {
-			infile = new Scanner (new File("short_dict.txt"));
+			infile = new Scanner (new File("five_letter_words.txt"));
 		} catch (FileNotFoundException e) {
 			System.out.println("Dictionary File not Found!");
 			e.printStackTrace();
@@ -161,7 +162,7 @@ public class Main {
 			System.out.println("no word ladder can be found between " + first + " and " + last);
 		}
 		else {
-			System.out.println("A " + ladder.size() + "-rung ladder exists between " + ladder.get(0) + " and " + ladder.get(ladder.size() - 1));
+			System.out.println("A " + (ladder.size()-2) + "-rung ladder exists between " + first + " and " + last);
 			for (int i = 0; i < ladder.size(); i++) {
 				System.out.println(ladder.get(i));
 			}
@@ -176,9 +177,9 @@ public class Main {
 		ArrayList<String> neighbor = new ArrayList<String>();
 		for(int i = 0; i < dictionary.size(); i ++){
 			if(almostEquals(node, dict[i])){
-				//if (!explored.contains(dict[i])) {
+				if (!explored.contains(dict[i])) {
 					neighbor.add(dict[i]);
-				//}
+				}
 			}
 		}
 		return neighbor;
