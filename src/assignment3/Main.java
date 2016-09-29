@@ -17,7 +17,6 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-	
 	// static variables and constants only here.
 	private static ArrayList<String> wordLadder = new ArrayList<String>();	// array list of strings that contains all words used to create the word ladder from first to last
 	private static ArrayList<String> explored = new ArrayList<String>();	// contains all words that have already been compared
@@ -25,7 +24,7 @@ public class Main {
 	private static String[] dict;	// array of lower case dictionary words that are used in the comparison
 	private static String first;	// first word to be compared from
 	private static String last;		// last word to be completely matched if a word ladder exists
-	
+
 	/**
 	 * runs the entirety of the word ladder program
 	 * @param args
@@ -44,10 +43,19 @@ public class Main {
 			ps = System.out;			// default to Stdout
 		}
 		initialize();
+<<<<<<< HEAD
 		parse(kb);
 		if (wordLadder.isEmpty() != true) {
 			getWordLadderDFS(first, last);
 			printLadder(wordLadder);
+=======
+		while(true) {
+			parse(kb);
+			if (wordLadder.isEmpty() != true) {
+				getWordLadderDFS(first, last);
+				printLadder(wordLadder);
+			}
+>>>>>>> 49d34b8056e0b6a3813d1ebcfd026a64025112de
 		}
 	}
 	/**
@@ -55,7 +63,7 @@ public class Main {
 	 */
 	public static void initialize() {
 		// initialize your static variables or constants here.
-		// We will call this method before running our JUNIT tests.  So call it 
+		// We will call this method before running our JUNIT tests.  So call it
 		// only once at the start of main.
 		dictionary = makeDictionary();
 		dict = dictionary.toArray(new String[dictionary.size()]);
@@ -65,12 +73,12 @@ public class Main {
 		wordLadder.clear();
 		explored.clear();
 	}
-	
+
 	/**
 	 * accepts input and correctly parses the two five-letter words
 	 * @param keyboard Scanner connected to System.in
-	 * @return ArrayList of 2 Strings containing start word and end word. 
-	 * If command is /quit, return empty ArrayList. 
+	 * @return ArrayList of 2 Strings containing start word and end word.
+	 * If command is /quit, return empty ArrayList.
 	 */
 	public static ArrayList<String> parse(Scanner keyboard) {
 		boolean flag = false;
@@ -102,7 +110,7 @@ public class Main {
 		wordLadder.add(last);
 		return wordLadder;
 	}
-	
+
 	/**
 	 * performs a DFS search in an attempt to find a word ladder between start and end
 	 * @param start - origin word to be expanded from
@@ -121,7 +129,6 @@ public class Main {
 		wordLadder.add(0, first);
 		return wordLadder;
 	}
-	
 	/**
 	 * performs a BFS search in an attempt to find a word ladder between start and end
 	 * @param start - origin word to be expanded from
@@ -143,7 +150,7 @@ public class Main {
 			if (head.equals(end)) {	// if the word matches the end word
 				wordLadder.remove(wordLadder.size() - 1);
 				for (int i = 0; i < parentNodes.size(); i++) {	// finds the correct node that contains head as the child
-					if (parentNodes.get(i).word.equals(head)) {	
+					if (parentNodes.get(i).word.equals(head)) {
 						child = parentNodes.get(i);
 						break;
 					}
@@ -179,10 +186,10 @@ public class Main {
 		wordLadder.clear();	// return empty list if no word ladder exists
 		return wordLadder;
 	}
-    
+
     /**
      * takes the dictionary and makes it a set to be used for comparing words (NOTE: all upper case)
-     * @return Set of Strings for a dictionary 
+     * @return Set of Strings for a dictionary
      */
 	public static Set<String>  makeDictionary () {
 		Set<String> words = new HashSet<String>();
@@ -199,7 +206,7 @@ public class Main {
 		}
 		return words;
 	}
-	
+
 	/**
 	 * prints the appropriate message depending on the length of the word ladder and whether a word ladder exists
 	 * @param ladder - the word ladder, empty if no word ladder exits
@@ -215,10 +222,11 @@ public class Main {
 			}
 		}
 		explored.clear();
+
 	}
-	
+
 	// Other private static methods here
-	
+
 	/**
 	 * finds all neighbors of the current word (words that have 4 letters in common)
 	 * @param node - word to be compared to
@@ -233,6 +241,7 @@ public class Main {
 				}
 			}
 		}
+		neighbor = reOrder(neighbor);
 		return neighbor;
 	}
 
@@ -253,10 +262,45 @@ public class Main {
 		return (same == (node.length() - 1));
 	}
 
+	private static ArrayList<String> reOrder(ArrayList<String> neighbor){
+		int[] same = new int[last.length() + 1];
+		int equal;
+		for(int i = 0; i < neighbor.size(); i++){
+			equal = 0;
+			for(int j = 0; j < last.length(); j++) {
+				if (neighbor.get(i).charAt(j) == last.charAt(j)){
+					equal++;
+				}
+			}
+			same[equal] = same[equal]+ 1;
+			if(equal == last.length()){
+				neighbor.add(0, neighbor.get(i));
+				neighbor.remove(i + 1);
+			}
+			else if(equal == last.length() - 1 && last.length() - 1 != 0){
+				neighbor.add(same[last.length()], neighbor.get(i));
+				neighbor.remove(i + 1);
+			}
+			else if(equal == last.length() - 2 && last.length() - 2 != 0){
+				neighbor.add(same[last.length()] + same[last.length() - 1], neighbor.get(i));
+				neighbor.remove(i + 1);
+			}
+			else if(equal == last.length() - 3 && last.length() - 3 != 0){
+				neighbor.add(same[last.length()] + same[last.length() - 1] + same[last.length() - 2], neighbor.get(i));
+				neighbor.remove(i + 1);
+			}
+			else if(equal == last.length() -4 && last.length() -4 != 0){
+				neighbor.add(same[last.length()] + same[last.length() - 1] + same[last.length() - 2] + same[last.length() - 3], neighbor.get(i));
+				neighbor.remove(i + 1);
+			}
+		}
+		return neighbor;
+	}
+
 	/**
 	 * recursive function that performs a DFS search
 	 * @param node - current word to be compared
-	 * @param toFind - word to be completely matched 
+	 * @param toFind - word to be completely matched
 	 * @param neighbors - list of all words that have 4 letters in common with node
 	 * @return true if the word has been found
 	 */
