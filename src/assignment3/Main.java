@@ -162,7 +162,8 @@ public class Main {
 			System.out.println("no word ladder can be found between " + first + " and " + last);
 		}
 		else {
-			System.out.println("A " + (ladder.size()-2) + "-rung ladder exists between " + first + " and " + last);
+			System.out.println("A " + (ladder.size() - 2) + "-rung ladder exists between " + first + " and " + last);
+
 			for (int i = 0; i < ladder.size(); i++) {
 				System.out.println(ladder.get(i));
 			}
