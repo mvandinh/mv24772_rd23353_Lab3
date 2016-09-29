@@ -74,7 +74,7 @@ public class Main {
 		last = "";
 		System.out.print("Please enter two 5-letter words separated by a space for the word ladder: ");
 		String input = keyboard.nextLine();
-		input = input.replaceAll("\\s+","");
+		input = input.replaceAll("\\s+\\n+\\t+\\r","");
 
 		if (input.equals("/quit")) {
 			wordLadder.clear();
@@ -84,12 +84,12 @@ public class Main {
 		String[] input_string = input.split("");
 		for(int indx = 0; indx < input_string.length; indx ++){
 			if(!flag){
-				first = first + input_string[indx];
-				if(dictionary.contains(first)){
+				first = first + input_string[indx].toLowerCase();
+				if(dictionary.contains(first) || dictionary.contains(first.toUpperCase())){
 					flag = true;
 				}
 			} else{
-				last = last + input_string[indx];
+				last = last + input_string[indx].toLowerCase();
 			}
 		}
 		wordLadder.clear();
@@ -141,7 +141,7 @@ public class Main {
 		Set<String> words = new HashSet<String>();
 		Scanner infile = null;
 		try {
-			infile = new Scanner (new File("five_letter_word.txt"));
+			infile = new Scanner (new File("five_letter_words.txt"));
 		} catch (FileNotFoundException e) {
 			System.out.println("Dictionary File not Found!");
 			e.printStackTrace();
