@@ -93,8 +93,8 @@ public class Main {
 			}
 		}
 		wordLadder.clear();
-		wordLadder.add(input.substring(0, 5));
-		wordLadder.add(input.substring(input.length() - 5));
+		wordLadder.add(first);
+		wordLadder.add(last);
 		return wordLadder;
 	}
 	
