@@ -41,13 +41,13 @@ public class Main {
 			ps = System.out;			// default to Stdout
 		}
 		initialize();
-		do {
+		while (true) {
 			parse(kb);
 			if (wordLadder.isEmpty() != true) {
 				getWordLadderBFS(first, last);
 				printLadder(wordLadder);
 			}
-		} while (wordLadder.isEmpty() != true);
+		}
 	}
 	
 	public static void initialize() {
@@ -80,8 +80,7 @@ public class Main {
 		input = input.replaceAll("\\r+","");
 
 		if (input.equals("/quit")) {
-			wordLadder.clear();
-			return wordLadder;
+			System.exit(0);
 		}
 
 		String[] input_string = input.split("");
@@ -109,7 +108,7 @@ public class Main {
 			wordLadder.clear();
 			return wordLadder;
 		}
-		wordLadder = reverse(wordLadder);
+		Collections.reverse(wordLadder);
 		wordLadder.add(0, first);
 		return wordLadder;
 	}
@@ -118,34 +117,51 @@ public class Main {
     public static ArrayList<String> getWordLadderBFS(String start, String end) {
 		ArrayList<String> queue = new ArrayList<String>();
 		ArrayList<Node> parentNodes = new ArrayList<Node>();
-		Node child = null;
 		ArrayList<String> neighbors;
-		explored.add(start);
 		String head = start;
 		queue.add(head);
-		while (queue.isEmpty() != true) {
+		Node child = new Node();
+		child.parent = null;
+		child.word = head;
+		parentNodes.add(child);
+		while (!queue.isEmpty()) {
 			head = queue.remove(0);
 			if (head.equals(end)) {
+				wordLadder.remove(wordLadder.size() - 1);
+				for (int i = 0; i < parentNodes.size(); i++) {
+					if (parentNodes.get(i).word.equals(head)) {
+						child = parentNodes.get(i);
+						break;
+					}
+				}
+				while (child.parent != null) {
+					wordLadder.add(1, child.word);
+					for (int i = 0; i < parentNodes.size(); i++) {
+						if (parentNodes.get(i).word.equals(child.parent)) {
+							child = parentNodes.get(i);
+							break;
+						}
+					}
+				}
 				return wordLadder;
 			}
 			else if (explored.contains(head)) ;
 			else {
 				explored.add(head);
 				neighbors = findNeighbors(head);
-				child.parent = head;
 				for (String k: neighbors) {
 					if (!explored.contains(k)) {
 						queue.add(k);
-						child.word = k;
-						parentNodes.add(child);
+						Node nextChild = new Node();
+						nextChild.parent = head;
+						nextChild.word = k;
+						parentNodes.add(nextChild);
 					}
 				}
 				neighbors.clear();
 			}
 		}
-		if (wordLadder.size() == 2) {
-			wordLadder.clear();
-		}
+		wordLadder.clear();
 		return wordLadder;
 	}
     
@@ -153,7 +169,7 @@ public class Main {
 		Set<String> words = new HashSet<String>();
 		Scanner infile = null;
 		try {
-			infile = new Scanner (new File("short_dict.txt"));
+			infile = new Scanner (new File("five_letter_words.txt"));
 		} catch (FileNotFoundException e) {
 			System.out.println("Dictionary File not Found!");
 			e.printStackTrace();
@@ -227,12 +243,5 @@ public class Main {
 		}
 		return false;
 
-	}
-
-	private static ArrayList<String> reverse(ArrayList<String> correct) {
-		for(int i = 0, j = correct.size() - 1; i < j; i++) {
-			correct.add(i, correct.remove(j));
-		}
-		return correct;
 	}
 }
