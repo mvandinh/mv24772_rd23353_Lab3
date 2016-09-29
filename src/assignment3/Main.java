@@ -44,7 +44,7 @@ public class Main {
 		do {
 			parse(kb);
 			if (wordLadder.isEmpty() != true) {
-				getWordLadderDFS(first, last);
+				getWordLadderBFS(first, last);
 				printLadder(wordLadder);
 			}
 		} while (wordLadder.isEmpty() != true);
@@ -117,6 +117,8 @@ public class Main {
 	
     public static ArrayList<String> getWordLadderBFS(String start, String end) {
 		ArrayList<String> queue = new ArrayList<String>();
+		ArrayList<Node> parentNodes = new ArrayList<Node>();
+		Node child = null;
 		ArrayList<String> neighbors;
 		explored.add(start);
 		String head = start;
@@ -130,13 +132,19 @@ public class Main {
 			else {
 				explored.add(head);
 				neighbors = findNeighbors(head);
-				for (int i = 0; i < neighbors.size(); i++) {
-					if (explored.contains(neighbors.get(i)) != true) {
-						explored.add(neighbors.get(i));
-						queue.add(neighbors.get(i));
+				child.parent = head;
+				for (String k: neighbors) {
+					if (!explored.contains(k)) {
+						queue.add(k);
+						child.word = k;
+						parentNodes.add(child);
 					}
 				}
+				neighbors.clear();
 			}
+		}
+		if (wordLadder.size() == 2) {
+			wordLadder.clear();
 		}
 		return wordLadder;
 	}
@@ -145,7 +153,7 @@ public class Main {
 		Set<String> words = new HashSet<String>();
 		Scanner infile = null;
 		try {
-			infile = new Scanner (new File("five_letter_words.txt"));
+			infile = new Scanner (new File("short_dict.txt"));
 		} catch (FileNotFoundException e) {
 			System.out.println("Dictionary File not Found!");
 			e.printStackTrace();
