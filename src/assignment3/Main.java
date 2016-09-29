@@ -109,7 +109,7 @@ public class Main {
 			wordLadder.clear();
 			return wordLadder;
 		}
-		wordLadder = reverse(wordLadder);
+		Collections.reverse(wordLadder);
 		wordLadder.add(0, first);
 		return wordLadder;
 	}
@@ -219,12 +219,5 @@ public class Main {
 		}
 		return false;
 
-	}
-
-	private static ArrayList<String> reverse(ArrayList<String> correct) {
-		for(int i = 0, j = correct.size() - 1; i < j; i++) {
-			correct.add(i, correct.remove(j));
-		}
-		return correct;
 	}
 }
