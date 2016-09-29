@@ -17,8 +17,8 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-	
-	
+
+
 	// static variables and constants only here.
 	private static ArrayList<String> wordLadder = new ArrayList<String>();
 	private static ArrayList<String> explored = new ArrayList<String>();
@@ -26,9 +26,9 @@ public class Main {
 	private static String[] dict;
 	private static String first;
 	private static String last;
-	
+
 	public static void main(String[] args) throws Exception {
-		
+
 		Scanner kb;	// input Scanner for commands
 		PrintStream ps;	// output file
 		// If arguments are specified, read/write from/to files instead of Std IO.
@@ -44,15 +44,15 @@ public class Main {
 		while (true) {
 			parse(kb);
 			if (wordLadder.isEmpty() != true) {
-				getWordLadderBFS(first, last);
+				getWordLadderDFS(first, last);
 				printLadder(wordLadder);
 			}
 		}
 	}
-	
+
 	public static void initialize() {
 		// initialize your static variables or constants here.
-		// We will call this method before running our JUNIT tests.  So call it 
+		// We will call this method before running our JUNIT tests.  So call it
 		// only once at the start of main.
 		dictionary = makeDictionary();
 		dict = dictionary.toArray(new String[dictionary.size()]);
@@ -62,11 +62,11 @@ public class Main {
 		wordLadder.clear();
 		explored.clear();
 	}
-	
+
 	/**
 	 * @param keyboard Scanner connected to System.in
-	 * @return ArrayList of 2 Strings containing start word and end word. 
-	 * If command is /quit, return empty ArrayList. 
+	 * @return ArrayList of 2 Strings containing start word and end word.
+	 * If command is /quit, return empty ArrayList.
 	 */
 	public static ArrayList<String> parse(Scanner keyboard) {
 		boolean flag = false;
@@ -99,7 +99,7 @@ public class Main {
 		wordLadder.add(last);
 		return wordLadder;
 	}
-	
+
 	public static ArrayList<String> getWordLadderDFS(String start, String end) {
 		wordLadder.clear();
 		ArrayList<String> neighbors = findNeighbors(start);
@@ -112,8 +112,8 @@ public class Main {
 		wordLadder.add(0, first);
 		return wordLadder;
 	}
-	
-	
+
+
     public static ArrayList<String> getWordLadderBFS(String start, String end) {
 		ArrayList<String> queue = new ArrayList<String>();
 		ArrayList<Node> parentNodes = new ArrayList<Node>();
@@ -164,7 +164,7 @@ public class Main {
 		wordLadder.clear();
 		return wordLadder;
 	}
-    
+
 	public static Set<String>  makeDictionary () {
 		Set<String> words = new HashSet<String>();
 		Scanner infile = null;
@@ -180,7 +180,7 @@ public class Main {
 		}
 		return words;
 	}
-	
+
 	public static void printLadder(ArrayList<String> ladder) {
 		if (ladder.isEmpty()) {
 			System.out.println("no word ladder can be found between " + first + " and " + last);
@@ -193,9 +193,9 @@ public class Main {
 			}
 		}
 		explored.clear();
-		
+
 	}
-	
+
 	// TODO
 	// Other private static methods here
 	private static ArrayList<String> findNeighbors(String node){
