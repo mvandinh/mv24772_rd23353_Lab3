@@ -134,7 +134,7 @@ public class Main {
 	}
 	
 	public static void printLadder(ArrayList<String> ladder) {
-		if (ladder.size() == 2) {
+		if (ladder.size() == 2) {	// NEED TO FIND A BETTER WAY TO IDENTIFY FOUND VS NOT FOUND
 			System.out.println("no word ladder can be found between " + ladder.get(0) + " and " + ladder.get(ladder.size() - 1));
 		}
 		else {
