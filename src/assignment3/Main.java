@@ -84,7 +84,11 @@ public class Main {
 	
 	public static ArrayList<String> getWordLadderDFS(String start, String end) {
 		ArrayList<String> neighbors = findNeighbors(start);
-		FindDFS(start, end, neighbors);
+		boolean found = FindDFS(start, end, neighbors);
+		if(!found){
+			wordLadder.clear();
+			return wordLadder;
+		}
 		wordLadder = reverse(wordLadder);
 		wordLadder.add(0, start);
 		return wordLadder;
@@ -134,7 +138,7 @@ public class Main {
 	}
 	
 	public static void printLadder(ArrayList<String> ladder) {
-		if (ladder.size() == 2) {
+		if (ladder.isEmpty()) {
 			System.out.println("no word ladder can be found between " + ladder.get(0) + " and " + ladder.get(ladder.size() - 1));
 		}
 		else {
